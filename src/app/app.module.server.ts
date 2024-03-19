@@ -3,12 +3,20 @@ import { ServerModule } from '@angular/platform-server';
 
 import { AppModule } from './app.module';
 import { AppComponent } from './app.component';
+import { HttpClientModule } from '@angular/common/http';
+import { CategoryService } from './services/category.service';
+import { CategoryComponent } from './category/category.component';
+
+
 
 @NgModule({
   imports: [
     AppModule,
     ServerModule,
+    HttpClientModule
   ],
   bootstrap: [AppComponent],
+  providers:[CategoryService]
+
 })
 export class AppServerModule {}
