@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +11,17 @@ export class StudentInLessonService {
 
   constructor(private http: HttpClient) { }
 
-  addStudentToLesson(idLesson: number, idUser: number): Observable<any> {
+ 
+  addStudentToLesson(data:any): Observable<any> {
     const url = `${this.apiUrl}/studentInLesson`;
-    const data = { idLesson, idUser };
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
-    return this.http.post<any>(url, data);
+    return this.http.post<any>(url, data)
+    .pipe(
+      catchError(error => {
+        console.error('Error adding user:', error);
+        return throwError(error);
+      })
+    );
   }
 }
